@@ -35,9 +35,12 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-// User Login
 router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
 
   try {
     const user = await User.findOne({ email });
@@ -66,6 +69,7 @@ router.post('/login', async (req: Request, res: Response) => {
       }
     });
   } catch (err) {
+    console.error('Login error:', err); // Log error to console
     res.status(500).json({ message: 'Server error' });
   }
 });
