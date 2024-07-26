@@ -48,6 +48,8 @@ connectToDatabase().catch(error => {
   process.exit(1); // Exit the process if connection fails
 });
 
+app.use('/api/users', userRoutes);
+
 type MulterCallback = (error: Error | null, filename: string) => void;
 
 // Multer configuration
@@ -161,7 +163,5 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     next();
   });
 };
-
-app.use('/api/users', userRoutes);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
