@@ -85,6 +85,10 @@ app.post('/api/products', upload.single('image'), async (req: Request, res: Resp
   }
 });
 
+app.get('/', (req:Request,res:Response) => {
+  res.status(200).json({message:"Server is running"});
+})
+
 app.get('/api/products', async (req: Request, res: Response) => {
   try {
     const products = await Product.find();
