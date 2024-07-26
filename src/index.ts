@@ -19,13 +19,13 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://tonnel:tonnel@cluster0.eyeqbwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 // Middleware
+const allowedOrigin = 'https://ecomyecommerce.onrender.com'; 
+app.use(cors({ origin: allowedOrigin })); 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
-const allowedOrigin = 'https://ecomyecommerce.onrender.com'; 
-app.use(cors({ origin: allowedOrigin })); 
 
 // Create uploads folder if it doesn't exist
 if (!fs.existsSync(path.join(__dirname, 'uploads'))) {
