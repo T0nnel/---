@@ -20,12 +20,12 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://tonnel:tonnel@cluster0
 
 // Middleware
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
-
+const allowedOrigin = 'https://ecomyecommerce.onrender.com'; 
+app.use(cors({ origin: allowedOrigin })); 
 
 // Create uploads folder if it doesn't exist
 if (!fs.existsSync(path.join(__dirname, 'uploads'))) {
