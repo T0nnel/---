@@ -43,6 +43,11 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 
   try {
+    // Check if JWT_SECRET is defined
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET environment variable is not set');
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
