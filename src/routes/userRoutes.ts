@@ -65,14 +65,21 @@ router.post('/login', async (req: Request, res: Response) => {
       userData: {
         id: user._id,
         email: user.email,
-        name: `${user.firstName} ${user.lastName}` // Provide full name
+        name: `${user.firstName} ${user.lastName}`, // Provide full name
+        bio: user.bio,
+        profilePicture: user.profilePicture
       }
     });
   } catch (err) {
-    console.error('Login error:', err); // Log error to console
-    res.status(500).json({ message: 'Server error' });
+    console.error('Login error:', err); // Log detailed error
+    if (err instanceof Error) {
+      res.status(500).json({ message: err.message });
+    } else {
+      res.status(500).json({ message: 'Server error' });
+    }
   }
 });
+
 // Configure multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
