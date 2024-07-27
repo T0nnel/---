@@ -34,7 +34,6 @@ router.post('/register', async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-
 router.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -44,7 +43,8 @@ router.post('/login', async (req: Request, res: Response) => {
 
   try {
     // Check if JWT_SECRET is defined
-    if (!process.env.JWT_SECRET) {
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
       throw new Error('JWT_SECRET environment variable is not set');
     }
 
@@ -59,11 +59,9 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    process.env.JWT_SECRET = "IvyNzilani"
-    const key = process.env.JWT_SECRET
     const token = jwt.sign(
       { userId: user._id },
-      key,
+      secret,
       { expiresIn: '1h' }
     );
 
@@ -72,7 +70,7 @@ router.post('/login', async (req: Request, res: Response) => {
       userData: {
         id: user._id,
         email: user.email,
-        name: `${user.firstName} ${user.lastName}`, // Provide full name
+        name: `${user.firstName} ${user.lastName}`,
         bio: user.bio,
         profilePicture: user.profilePicture
       }
